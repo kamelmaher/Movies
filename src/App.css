@@ -1,9 +1,11 @@
 @import url("../node_modules/bootstrap/dist/css/bootstrap.min.css");
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
     background-color: black;
     color: white;
+    font-family: "Poppins", sans-serif;
+    ;
 }
 
 /* Header */
@@ -91,4 +93,66 @@ body {
     transform: translateY(0);
 }
 
+.pagination li {
+    --bs-pagination-bg: black !important;
+    cursor: pointer;
+}
+
+.pagination li.active {
+    --bs-pagination-active-bg: #f8f9fa !important;
+    --bs-pagination-active-color: red !important;
+    --bs-pagination-active-border-color: white !important;
+}
+
+.pagination li.active a {
+    color: red !important;
+}
+
+.pagination li a {
+    color: white !important;
+}
+
+.pagination li:hover a {
+    color: red !important;
+}
+
+.movieCont {
+    min-height: 400px;
+}
+
+.img-details {
+    border: 2px solid white;
+}
+
+.movie-desc {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.movie-img {
+    width: 300px;
+}
+
+.movie-details {
+    width: 500px
+}
+.actor .name {
+    font-size: 14px;
+}
+.actor .image {
+    width: 50px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.seasons div img{
+    cursor: pointer;
+}
+.search-bar {
+    padding: 0 !important;
+}
+.search-bar input  {
+    color: white !important; 
+    background-color: transparent !important;
+}
 /* Movie */
