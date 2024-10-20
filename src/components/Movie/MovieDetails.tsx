@@ -12,22 +12,14 @@ const MovieDetails = () => {
     const [movie, setMovie] = useState<MovieType>()
     const [isLoading, setLoading] = useState(true)
     const [errMessage, setErrMessage] = useState("Loading...")
-    const [content, setContent] = useState("")
     const [related, setRelated] = useState<MovieType[]>([])
     const [actors, setActors] = useState<Actor[]>([])
     // If Content is TV
     const [seasons, setSeasons] = useState<Season[]>([])
-
+    const content = useAppSelector(state => state.Link.content)
     const allCategories = useAppSelector(state => state.Category.categories)
     const navigate = useNavigate()
     useEffect(() => {
-        let content = ""
-        const data = localStorage.getItem("content");
-        if (data) {
-            const parsedData = JSON.parse(data);
-            content = parsedData
-            setContent(parsedData)
-        }
         // Get Serie Details (Seasons)
         // Returns Season Array 
         // Season Object
