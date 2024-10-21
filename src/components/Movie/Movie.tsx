@@ -12,7 +12,6 @@ type MovieProps = {
 const Movie = ({ movie , myCategories}: MovieProps) => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    console.log(myCategories)
     return (
 
         <div className="movie" onClick={() => {

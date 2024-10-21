@@ -14,16 +14,17 @@ const MovieDetails = () => {
     const [errMessage, setErrMessage] = useState("Loading...")
     const [related, setRelated] = useState<MovieType[]>([])
     const [actors, setActors] = useState<Actor[]>([])
+    
     // If Content is TV
     const [seasons, setSeasons] = useState<Season[]>([])
     const content = useAppSelector(state => state.Link.content)
     const allCategories = useAppSelector(state => state.Category.categories)
+    
     const navigate = useNavigate()
     useEffect(() => {
         if (content == "tv") {
             axios.get(`https://api.themoviedb.org/3/tv/${movieId}?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
                 setSeasons(data.seasons)
-                console.log(data.seasons)
             })
         }
 
@@ -46,7 +47,7 @@ const MovieDetails = () => {
             setActors(mainActors)
         })
 
-    }, [movieId])
+    }, [movieId , content])
     return (
         <div>
             {
@@ -121,7 +122,6 @@ const MovieDetails = () => {
                                         seasons.map(e => {
                                             return <div key={e.id}>
                                                 <img src={`https://image.tmdb.org/t/p/w200${e.poster_path}`} alt="" className="img-fluid" onClick={() => {
-
                                                     navigate(`/serie/${movieId}/seasons/${e.season_number}`)
                                                 }} />
                                                 <h5 className="text-center">{e.name}</h5>

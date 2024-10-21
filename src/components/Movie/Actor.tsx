@@ -39,40 +39,52 @@ const Actor = () => {
     }, [])
 
     return (
+
         <div className="mt-4">
-            <div className="actor-page d-flex gap-3 p-2">
-                <div className="img">
-                    <img src={`https://image.tmdb.org/t/p/w300${actor?.profile_path}`} alt=""
-                        className="img-fluid"
-                        style={{ width: "150px", border: "1px solid white" }}
-                    />
-                </div>
-                <div className="details">
-                    <h3>{actor.name}</h3>
-                    <p>Birthday: <span className="text-danger">{actor.birthday}</span></p>
-                    <p>Age: <span className="text-danger">{2024 - +(actor.birthday.slice(0, actor.birthday.indexOf("-")))}</span></p>
-                </div>
-            </div>
-            <div className="movies mt-4">
-                <h4>Actor’s Best Movies</h4>
-                <div className="movies-container">
-                    <div className="row">
+            {
+                actor &&
+                <div className="actor-page d-flex gap-3 p-2">
+                    <div className="img">
+                        <img src={`https://image.tmdb.org/t/p/w300${actor?.profile_path}`} alt=""
+                            className="img-fluid"
+                            style={{ width: "150px", border: "1px solid white" }}
+                        />
+                    </div>
+                    <div className="details">
+                        <h3>{actor.name}</h3>
                         {
-                            movies.slice(0, 20).map(e => {
-                                const myCategories: Category[] = []
-                                allCategories.map(category => {
-                                    e.genre_ids.map(id => {
-                                        if (id == category.id) myCategories.push(category)
-                                    })
-                                })
-                                return <div className="col-md-3">
-                                    <Movie movie={e} myCategories={myCategories}></Movie>
-                                </div>
-                            })
+                        actor.birthday &&
+                            <>
+                                <p>Birthday: <span className="text-danger">{actor.birthday}</span></p>
+                                <p> Age: <span className="text-danger">{2024 - +(actor.birthday.slice(0, actor.birthday.indexOf("-")))}</span></p>
+                            </>
                         }
                     </div>
                 </div>
-            </div>
+            }
+            {
+                movies &&
+                <div className="movies mt-4">
+                    <h4>Actor’s Best Movies</h4>
+                    <div className="movies-container">
+                        <div className="row">
+                            {
+                                movies.slice(0, 20).map(e => {
+                                    const myCategories: Category[] = []
+                                    allCategories.map(category => {
+                                        e.genre_ids.map(id => {
+                                            if (id == category.id) myCategories.push(category)
+                                        })
+                                    })
+                                    return <div className="col-md-3" key={e.id}>
+                                        <Movie movie={e} myCategories={myCategories}></Movie>
+                                    </div>
+                                })
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     )
 }
