@@ -5,10 +5,12 @@ import MoviesContainer from './components/Movie/MoviesContainer';
 import { useAppDispatch, useAppSelector } from './Store/Store';
 import { Movie } from './Store/MovieSlice';
 import { setCategory } from './Store/LinkSlice';
+import Slider from './components/Slider';
 
 function App() {
   const content = useAppSelector(state => state.Link.content)
   const [data, setData] = useState<Movie[]>([])
+  const [trending, setTrending] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [errMessage, setErrMessage] = useState("is Loading...")
   const selectedCategory = useAppSelector(state => state.Link.category)
@@ -33,9 +35,21 @@ function App() {
       })
     }
 
+    // Fetch Trending Movies For Slider 
+    axios.get(`https://api.themoviedb.org/3/trending/${content}/week?api_key=acecc2235b3b867602d49291bcc21926&language=en-US`).then(({ data }) => {
+      const sortedMovies = data.results.sort(
+        (a: Movie, b: Movie) => b.popularity - a.popularity
+      );
+      setTrending(sortedMovies)
+    })
+
   }, [content, searchValue])
 
   return <div className='row mt-5'>
+    <div>
+      <Slider movies={trending} />
+    </div>
+
     {
       !isLoading ?
         <div className='col-md-9 p-0'>
@@ -44,6 +58,7 @@ function App() {
           }
         </div> : <h3>{errMessage}</h3>
     }
+
     <aside className='col-md-2 p-0 d-none d-md-block'>
       <div>
         <ul>

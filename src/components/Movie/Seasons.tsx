@@ -7,10 +7,8 @@ const Seasons = () => {
     const { serieId, seasonNumber } = useParams()
     const [season, setSeason] = useState<Season>()
     useEffect(() => {
-        // https://api.themoviedb.org/3/tv/{tv_id}/season/{season_number}?api_key=YOUR_TMDB_API_KEY
         axios.get(`https://api.themoviedb.org/3/tv/${serieId}/season/${seasonNumber}?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
             setSeason(data)
-            console.log(data)
         })
 
     }, [])
