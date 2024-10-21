@@ -136,6 +136,9 @@ body {
 .movie-details {
     width: 500px
 }
+.actor {
+    cursor: pointer;
+}
 .actor .name {
     font-size: 14px;
 }

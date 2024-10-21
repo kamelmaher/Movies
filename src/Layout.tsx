@@ -14,6 +14,7 @@ const Layout = () => {
         if(data) {
             dispatch(setContent(JSON.parse(data)))
         }
+        
         // Fetch All Categories
         axios.get(`https://api.themoviedb.org/3/genre/${content}/list?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
             dispatch(setCategories(data.genres))

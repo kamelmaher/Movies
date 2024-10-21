@@ -14,7 +14,7 @@ export type Movie = {
   title: string;
   vote_average: number;
   homepage: string;
-
+  popularity: number
   // For Series
   name: string;
   genres: Category[];

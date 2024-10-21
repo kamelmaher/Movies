@@ -13,13 +13,18 @@ function App() {
   const [errMessage, setErrMessage] = useState("is Loading...")
   const selectedCategory = useAppSelector(state => state.Link.category)
   const searchValue = useAppSelector(state => state.Search.search)
+  const categories = useAppSelector(state => state.Category.categories)
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (searchValue != "") {
+
+      // Search Movies
       axios.get(`https://api.themoviedb.org/3/search/${content}?api_key=acecc2235b3b867602d49291bcc21926&query=${searchValue}`).then(({ data }) => {
         setData(data.results)
-        console.log(data)
       })
     } else {
+
       // Fetch All Movies
       axios.get(`https://api.themoviedb.org/3/discover/${content}?api_key=acecc2235b3b867602d49291bcc21926&with_original_language=en`).then(({ data }) => {
         setData(data.results)
@@ -28,15 +33,14 @@ function App() {
         setErrMessage(e.message)
       })
     }
+
   }, [content, searchValue])
-  const categories = useAppSelector(state => state.Category.categories)
-  const dispatch = useAppDispatch();
+
   return <div className='row mt-5'>
     {
       !isLoading ?
         <div className='col-md-9 p-0'>
           {
-            data.length > 0 &&
             <MoviesContainer movies={data} />
           }
         </div> : <h3>{errMessage}</h3>

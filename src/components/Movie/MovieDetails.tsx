@@ -20,10 +20,6 @@ const MovieDetails = () => {
     const allCategories = useAppSelector(state => state.Category.categories)
     const navigate = useNavigate()
     useEffect(() => {
-        // Get Serie Details (Seasons)
-        // Returns Season Array 
-        // Season Object
-        // Dont include Epsoides Array 
         if (content == "tv") {
             axios.get(`https://api.themoviedb.org/3/tv/${movieId}?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
                 setSeasons(data.seasons)
@@ -31,16 +27,10 @@ const MovieDetails = () => {
             })
         }
 
-        // Get Serie Epsoides (Season id )
-        // axios.get(`https://api.themoviedb.org/3/tv/${movieId}/season/1?api_key=acecc2235b3b867602d49291bcc21926`).then(({data}) => {
-        // console.log(data)
-        // })
-
         // Get Selected Movie
         axios.get(`https://api.themoviedb.org/3/${content}/${movieId}?language=en-US&api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
             setMovie(data)
             setLoading(false)
-            // console.log(data)
         }).catch((err) => {
             setErrMessage("Error : " + err.message)
         })
@@ -81,7 +71,7 @@ const MovieDetails = () => {
                                             }</span></p>
                                         </div>
                                         <div className="movie-detail col-md-6">
-                                            <p>Rating: <span className="text-danger">{movie?.vote_average}</span></p>
+                                            <p>Rating: <span className="text-danger">{movie?.vote_average.toFixed(1)}</span></p>
                                         </div>
                                         {
                                             movie?.homepage != "" &&
@@ -104,7 +94,9 @@ const MovieDetails = () => {
                                         {
                                             actors &&
                                             actors.map((e, i) => {
-                                                return <div key={i} className="col-sm-6 col-md-4 actor d-flex gap-2 align-items-center mb-3">
+                                                return <div key={i} className="col-sm-6 col-md-4 actor d-flex gap-2 align-items-center mb-3" onClick={() => {
+                                                    navigate(`/movie/actors/${e.id}`)
+                                                }}>
                                                     <div className="image">
                                                         <img src={`https://image.tmdb.org/t/p/w300${e.profile_path}`} alt="" className="img-fluid" />
                                                     </div>
@@ -129,9 +121,9 @@ const MovieDetails = () => {
                                         seasons.map(e => {
                                             return <div key={e.id}>
                                                 <img src={`https://image.tmdb.org/t/p/w200${e.poster_path}`} alt="" className="img-fluid" onClick={() => {
-                                                    
+
                                                     navigate(`/serie/${movieId}/seasons/${e.season_number}`)
-                                                }}/>
+                                                }} />
                                                 <h5 className="text-center">{e.name}</h5>
                                             </div>
                                         })

@@ -12,6 +12,7 @@ type MovieProps = {
 const Movie = ({ movie , myCategories}: MovieProps) => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    console.log(myCategories)
     return (
 
         <div className="movie" onClick={() => {
@@ -30,7 +31,9 @@ const Movie = ({ movie , myCategories}: MovieProps) => {
             </div>
             <div className="hidden">
                 <ul className="category d-flex justify-content-center gap-2 p-0">
-                    {myCategories.slice(0, 2).map((e, i) => {
+                    {
+                    myCategories.length > 0 &&
+                    myCategories.slice(0, 2).map((e, i) => {
                         return <li key={i}>{e.name}</li>
                     })}
                 </ul>
