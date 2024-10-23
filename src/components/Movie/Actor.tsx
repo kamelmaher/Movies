@@ -24,8 +24,9 @@ const Actor = () => {
     })
     const { actorId } = useParams()
     const allCategories = useAppSelector(state => state.Category.categories)
+    const content = useAppSelector(state => state.Link.content)
     useEffect(() => {
-        axios.get(`https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
+        axios.get(`https://api.themoviedb.org/3/person/${actorId}/${content}_credits?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
             const sortedMovies = data.cast.sort(
                 (a: MovieType, b: MovieType) => b.popularity - a.popularity
             );
@@ -36,7 +37,7 @@ const Actor = () => {
         })
 
 
-    }, [])
+    }, [content])
 
     return (
 
@@ -65,7 +66,7 @@ const Actor = () => {
             {
                 movies &&
                 <div className="movies mt-4">
-                    <h4>Actor’s Best Movies</h4>
+                    <h4>Actor’s Best {content == "movie" ? "Movies" : "Series"}</h4>
                     <div className="movies-container">
                         <div className="row">
                             {

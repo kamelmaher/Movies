@@ -12,7 +12,7 @@ function App() {
   const [data, setData] = useState<Movie[]>([])
   const [trending, setTrending] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [errMessage, setErrMessage] = useState("is Loading...")
+  const [errMessage, setErrMessage] = useState("Loading...")
   const selectedCategory = useAppSelector(state => state.Link.category)
   const searchValue = useAppSelector(state => state.Search.search)
   const categories = useAppSelector(state => state.Category.categories)
@@ -46,10 +46,12 @@ function App() {
   }, [content, searchValue])
 
   return <div className='row mt-5'>
+    {
+      searchValue == "" &&
     <div>
       <Slider movies={trending} />
     </div>
-
+    }
     {
       !isLoading ?
         <div className='col-md-9 p-0'>
