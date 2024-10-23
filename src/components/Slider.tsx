@@ -20,6 +20,10 @@ const Slider = ({ movies }: Swiper) => {
                 centeredSlides={true}
                 loop={true}
                 navigation={true}
+                speed={1000}
+                effect='fade'
+                touchReleaseOnEdges={true}
+                freeMode= {true}
             >
                 {
                     movies.map((e) => {
@@ -35,7 +39,7 @@ const Slider = ({ movies }: Swiper) => {
                                             }}
                                         />
                                         <div className={`movie-name text-center ${isActive ? "" : "d-none"}`}>
-                                            <h4>{content == "tv"? e.name : e.original_title}</h4>
+                                            <h4>{content == "tv" ? e.name : e.original_title}</h4>
                                         </div>
                                     </div>
                                 )}

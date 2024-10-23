@@ -10,7 +10,7 @@ type MoviesContainerProps = {
     movies: MovieType[],
 }
 
-const MoviesContainer = ({ movies}: MoviesContainerProps) => {
+const MoviesContainer = ({ movies }: MoviesContainerProps) => {
     const allCategories = useAppSelector(state => state.Category.categories)
     const [filteredData, setFilteredData] = useState<MovieType[]>(movies)
     const [loading, setLoading] = useState(false)
@@ -58,17 +58,17 @@ const MoviesContainer = ({ movies}: MoviesContainerProps) => {
                             :
                             filteredData.length > 0 ?
                                 filteredData.map(e => {
-                                    const myCategories:Category[] = []
+                                    const myCategories: Category[] = []
                                     allCategories.map(category => {
                                         e.genre_ids.map(id => {
-                                            if(id == category.id) myCategories.push(category)
+                                            if (id == category.id) myCategories.push(category)
                                         })
                                     })
                                     return <div key={e.id} className="col-sm-3">
-                                        <Movie movie={e} myCategories={myCategories}/>
+                                        <Movie movie={e} myCategories={myCategories} />
                                     </div>
                                 })
-                                : <h1>No {linkState.content == "tv" ? "Series": "Movies"} Under This Category</h1>
+                                : <h1>No {linkState.content == "tv" ? "Series" : "Movies"} Under This Category</h1>
                     }
                 </div>
                 <div>

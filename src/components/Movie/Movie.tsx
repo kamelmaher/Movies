@@ -23,7 +23,7 @@ const Movie = ({ movie , myCategories}: MovieProps) => {
             });
         }}>
             <div className="image mb-3" >
-                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt="" className="img-fluid rounded" />
+                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} loading={"lazy"} alt="" className="img-fluid rounded" />
             </div>
             <div className="body">
                 <h5>{movie.original_title ? movie.original_title : movie.name}</h5>
