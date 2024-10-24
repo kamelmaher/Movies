@@ -13,6 +13,7 @@ const Actor = () => {
         gender: number
         name: string
         profile_path: string
+        homepage: string
     }
     const [movies, setMovies] = useState<MovieType[]>([])
     const [actor, setActorDetails] = useState<ActorType>({
@@ -20,7 +21,8 @@ const Actor = () => {
         profile_path: "",
         gender: 0,
         deathday: "",
-        birthday: ""
+        birthday: "",
+        homepage: ""
     })
     const { actorId } = useParams()
     const allCategories = useAppSelector(state => state.Category.categories)
@@ -35,10 +37,8 @@ const Actor = () => {
         axios.get(`https://api.themoviedb.org/3/person/${actorId}?api_key=acecc2235b3b867602d49291bcc21926`).then(({ data }) => {
             setActorDetails(data)
         })
-
-
     }, [content])
-
+    console.log(actor.homepage)
     return (
 
         <div className="mt-4">
@@ -54,11 +54,15 @@ const Actor = () => {
                     <div className="details">
                         <h3>{actor.name}</h3>
                         {
-                        actor.birthday &&
+                            actor.birthday &&
                             <>
                                 <p>Birthday: <span className="text-danger">{actor.birthday}</span></p>
                                 <p> Age: <span className="text-danger">{2024 - +(actor.birthday.slice(0, actor.birthday.indexOf("-")))}</span></p>
                             </>
+                        }
+                        {
+                            actor.homepage != null &&
+                            <a className="btn btn-outline-danger" target="_blank" href={actor.homepage}>Wikipedia</a>
                         }
                     </div>
                 </div>
