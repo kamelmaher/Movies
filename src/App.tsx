@@ -19,6 +19,15 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+
+    // Fetch Trending Movies For Slider 
+    axios.get(`https://api.themoviedb.org/3/trending/${content}/week?api_key=acecc2235b3b867602d49291bcc21926&language=en-US`).then(({ data }) => {
+      const sortedMovies = data.results.sort(
+        (a: Movie, b: Movie) => b.popularity - a.popularity
+      );
+      setTrending(sortedMovies)
+    })
+
     if (searchValue != "") {
       // Search Movies
       axios.get(`https://api.themoviedb.org/3/search/${content}?api_key=acecc2235b3b867602d49291bcc21926&query=${searchValue}`).then(({ data }) => {
@@ -35,22 +44,16 @@ function App() {
       })
     }
 
-    // Fetch Trending Movies For Slider 
-    axios.get(`https://api.themoviedb.org/3/trending/${content}/week?api_key=acecc2235b3b867602d49291bcc21926&language=en-US`).then(({ data }) => {
-      const sortedMovies = data.results.sort(
-        (a: Movie, b: Movie) => b.popularity - a.popularity
-      );
-      setTrending(sortedMovies)
-    })
+
 
   }, [content, searchValue])
 
   return <div className='row mt-5'>
     {
       searchValue == "" &&
-    <div>
-      <Slider movies={trending} />
-    </div>
+      <div>
+        <Slider movies={trending} />
+      </div>
     }
     {
       !isLoading ?
