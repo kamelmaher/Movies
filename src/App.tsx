@@ -28,7 +28,11 @@ function App() {
       setTrending(sortedMovies)
     })
 
+  }, [])
+  useEffect(() => {
+
     if (searchValue != "") {
+
       // Search Movies
       axios.get(`https://api.themoviedb.org/3/search/${content}?api_key=acecc2235b3b867602d49291bcc21926&query=${searchValue}`).then(({ data }) => {
         setData(data.results)
@@ -43,8 +47,6 @@ function App() {
         setErrMessage(e.message)
       })
     }
-
-
 
   }, [content, searchValue])
 
