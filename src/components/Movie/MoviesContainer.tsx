@@ -56,7 +56,8 @@ const MoviesContainer = ({ movies }: MoviesContainerProps) => {
                     {
                         loading ? <h3 className="text-center">Loading...</h3>
                             :
-                            filteredData.length > 0 ?
+                            filteredData &&
+                                filteredData.length > 0 ?
                                 filteredData.map(e => {
                                     const myCategories: Category[] = []
                                     allCategories.map(category => {
