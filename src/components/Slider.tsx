@@ -1,56 +1,60 @@
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Movie as MovieType } from "../Store/MovieSlice"
-import { useNavigate } from 'react-router';
-import { useAppSelector } from '../Store/Store';
-type Swiper = {
-    movies: MovieType[]
-}
-const Slider = ({ movies }: Swiper) => {
-    const navigate = useNavigate()
-    const content = useAppSelector(state => state.Link.content)
+import { useFetch } from '../hooks/useFetch';
+import { getUrl } from '../hooks/getUrl';
+import Loading from './Loading';
+const Slider = () => {
+    console.log("SLider Rendered")
+    const { data, isLoading } = useFetch(getUrl("discover/movie", [{ with_original_language: "en" }]))
     return (
-        <div style={{ userSelect: "none" }} className='d-none d-md-block mb-5'>
+        <div style={{ userSelect: "none" }} className='mb-5 mt-3'>
             <h3 className='text-danger mb-3'>Trending Now</h3>
             <Swiper
                 modules={[Navigation]}
                 initialSlide={2}
                 spaceBetween={20}
-                slidesPerView={4}
+                breakpoints={
+                    {
+                        576: { slidesPerView: 1 },
+                        768: { slidesPerView: 2 },
+                        992: { slidesPerView: 3 },
+                        1200: { slidesPerView: 4 }
+                    }
+                }
                 centeredSlides={true}
                 loop={true}
                 navigation={true}
                 speed={1000}
                 effect='fade'
                 touchReleaseOnEdges={true}
-                freeMode= {true}
+                freeMode={true}
+                className='swiper'
             >
                 {
-                    movies.map((e) => {
-                        return <div key={e.id}>
-                            <SwiperSlide key={e.id}>
+                    !isLoading ?
+                        data.map(movie =>
+                            <SwiperSlide key={movie.id}>
                                 {({ isActive }) => (
-                                    <div style={{ position: "relative" }}>
+                                    <div className='m-auto' style={{ height: "100%" }}>
                                         <img
-                                            style={{ opacity: `${isActive ? "100%" : "50%"}` }}
-                                            src={`https://image.tmdb.org/t/p/w300${e.poster_path}`} alt="" className='img-fluid'
-                                            onClick={() => {
-                                                navigate(`/movie/${e.id}`)
-                                            }}
+                                            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                                            alt={movie.title}
+                                            className='img-fluid'
+                                            style={{ opacity: `${isActive ? "100%" : "50%"}`, transition: ".2s" }}
+                                            loading={`${isActive ? "eager" : "lazy"}`}
                                         />
-                                        <div className={`movie-name text-center ${isActive ? "" : "d-none"}`}>
-                                            <h4>{content == "tv" ? e.name : e.original_title}</h4>
-                                        </div>
+                                        {
+                                            isActive &&
+                                            <h5 className='text-center mt-2'>{movie.title}</h5>
+                                        }
                                     </div>
                                 )}
                             </SwiperSlide>
-                        </div>
-
-                    })
+                        )
+                        : <Loading />
                 }
-
-            </Swiper>
-        </div>
+            </Swiper >
+        </div >
     )
 }
 
