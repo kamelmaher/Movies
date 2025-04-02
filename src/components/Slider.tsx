@@ -40,7 +40,7 @@ const Slider = () => {
                                             src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                                             alt={movie.title}
                                             className='img-fluid'
-                                            style={{ opacity: `${isActive ? "100%" : "50%"}`, transition: ".2s" }}
+                                            style={{ opacity: `${isActive ? "100%" : "50%"}`, transition: ".2s", minHeight: "200px" }}
                                             loading={`${isActive ? "eager" : "lazy"}`}
                                         />
                                         {
