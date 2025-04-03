@@ -19,6 +19,7 @@ const Movie = ({ movie }: MovieProps) => {
             <div className="hidden">
                 <ul className="category d-flex justify-content-center gap-2 p-0">
                     {
+                        categories.length > 0 &&
                         categories.map(category => <li key={category.id}>{category.name}</li>)
                     }
                 </ul>
