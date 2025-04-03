@@ -1,5 +1,3 @@
-
-
 const MovieDetails = () => {
     return (
         <div>

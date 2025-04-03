@@ -20,13 +20,14 @@ const MoviesContainer = () => {
                 {
                     !isLoading ?
                         <>
-                            <ul className="d-flex gap-3 flex-wrap pe-0" style={{maxHeight:" fit-content"}}>
+                            <ul className="d-flex gap-3 flex-wrap pe-0" style={{ maxHeight: " fit-content" }}>
                                 {
                                     typeOfMovies.map(item => <button key={item} className={`btn btn${movietype == item ? "" : "-outline"}-danger`} onClick={() => handleChangeType(item)}>{item}</button>)
                                 }
                             </ul>
                             <div className="row justify-content-center">
                                 {
+                                    data.length > 0 &&
                                     data.map(movie => <div key={movie.id} className="col-sm-3">
                                         <Movie movie={movie} />
                                     </div>)
