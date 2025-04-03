@@ -20,7 +20,7 @@ const Movie = ({ movie }: MovieProps) => {
                 <ul className="category d-flex justify-content-center gap-2 p-0">
                     {
                         categories.length > 0 &&
-                        categories.map(category => <li key={category.id}>{category.name}</li>)
+                        categories.slice(0, 2).map(category => <li key={category.id}>{category.name}</li>)
                     }
                 </ul>
             </div>
