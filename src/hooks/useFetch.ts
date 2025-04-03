@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { MovieType } from "../types/MovieType";
+import { getUrl } from "./getUrl";
 export type Root = {
   adult: boolean;
   backdrop_path: string;
@@ -21,15 +22,18 @@ export type Root = {
   homepage: string;
 };
 export const useFetch = (url: string) => {
+  const fullUrl = getUrl(url);
   const [data, setData] = useState<MovieType[]>([]);
+  const [trending, setTrending] = useState<MovieType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
     setIsLoading(true);
-    axios.get(url).then(({ data }) => {
-      data.results.map((result: Root) =>
-        setData((prev) => [
-          ...prev,
-          {
+    axios
+      .get(fullUrl)
+      .then(({ data }) => {
+        data.results.map((result: Root) => {
+          const movie = {
             id: result.id,
             title: result.title,
             overview: result.overview,
@@ -38,12 +42,20 @@ export const useFetch = (url: string) => {
             vote_average: result.vote_average,
             genre_ids: result.genre_ids,
             homepage: result.homepage,
-          },
-        ])
-      );
-    });
+          };
+          switch (url) {
+            case "trending/movie/week":
+              setTrending((prev) => [...prev, movie]);
+              break;
+            case "discover/movie":
+              setData((prev) => [...prev, movie]);
+              break;
+          }
+        });
+      })
+      .catch((err) => setError(err.message));
     setIsLoading(false);
-  }, [url]);
+  }, [fullUrl]);
 
-  return { data, isLoading };
+  return { data, trending, isLoading, error };
 };

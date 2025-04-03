@@ -1,11 +1,12 @@
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useFetch } from '../hooks/useFetch';
-import { getUrl } from '../hooks/getUrl';
 import Loading from './Loading';
 const Slider = () => {
     console.log("SLider Rendered")
-    const { data, isLoading } = useFetch(getUrl("discover/movie", [{ with_original_language: "en" }]))
+    const { trending, isLoading, error } = useFetch("trending/movie/week")
+    if (error)
+        return <h3>{error}</h3>
     return (
         !isLoading ?
             <div style={{ userSelect: "none" }} className='mb-5 mt-3'>
@@ -31,7 +32,7 @@ const Slider = () => {
                     freeMode={true}
                     className='swiper'
                 >
-                    {data.map(movie =>
+                    {trending.map(movie =>
                         <SwiperSlide key={movie.id}>
                             {({ isActive }) => (
                                 <div className='m-auto' style={{ height: "100%" }}>

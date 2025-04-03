@@ -1,36 +1,42 @@
+import { useContext } from "react"
 import Movie from "../Movie/Movie"
+import { dataContext } from "../../context/DataContextProvider"
+import Navigators from "../Navigators"
+import { useFetch } from "../../hooks/useFetch"
+import Loading from "../Loading"
 
 
 const MoviesContainer = () => {
-
+    const { data, isLoading } = useFetch("discover/movie")
+    const { typeOfMovies, handleChangeType, movietype } = useContext(dataContext)
     return (
+
         <div>
-            <div className="row movieCont align-items-start">
-                <div className="head d-flex justify-content-between align-items-center mb-3">
+            <div className="row movieCont justify-content-center">
+                <div className="head d-flex justify-content-between align-items-center mb-2">
                     <div className="fw-bold">Latest Movies</div>
                     <div className="btn btn-secondary">Watch More...</div>
                 </div>
-                <ul className="d-flex gap-3 flex-wrap pe-0">
-
-                </ul>
-                <div className="row justify-content-center">
-
-                    <div className="col-sm-3">
-                        <Movie />
-                    </div>
-                </div>
-                <div>
-                    {
-                        <nav aria-label="Page navigation example ">
-                            <ul className="pagination justify-content-center">
-                                <li className="page-item" onClick={() => {
-                                }}><a className="page-link">Previous</a></li>
-                                <li className="page-item" onClick={() => {
-                                }}><a className="page-link">Next</a></li>
+                {
+                    !isLoading ?
+                        <>
+                            <ul className="d-flex gap-3 flex-wrap pe-0" style={{maxHeight:" fit-content"}}>
+                                {
+                                    typeOfMovies.map(item => <button key={item} className={`btn btn${movietype == item ? "" : "-outline"}-danger`} onClick={() => handleChangeType(item)}>{item}</button>)
+                                }
                             </ul>
-                        </nav>
-                    }
-                </div>
+                            <div className="row justify-content-center">
+                                {
+                                    data.map(movie => <div key={movie.id} className="col-sm-3">
+                                        <Movie movie={movie} />
+                                    </div>)
+                                }
+                            </div>
+                            <Navigators />
+                        </>
+                        : <Loading />
+                }
+
             </div>
         </div>
     )

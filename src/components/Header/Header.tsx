@@ -11,7 +11,6 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
                             <div className="ms-4 search-bar">
                                 <div className="form-floating">
                                     <input type="text" className="form-control" placeholder="Search" />

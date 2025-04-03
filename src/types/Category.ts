@@ -1,4 +1,6 @@
+/** @format */
+
 export type Category = {
-    name: string,
-    id: number
-}
+  name: string;
+  id: number;
+};
