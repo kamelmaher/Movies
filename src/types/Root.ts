@@ -2,16 +2,22 @@
 
 import { Category } from "./Category";
 
-export type MovieType = {
+export type Root = {
+  adult: boolean;
+  backdrop_path: string;
   id: number;
-  title: string;
+  original_language: string;
+  original_title: string;
   overview: string;
+  popularity: number;
   poster_path: string;
   release_date: string;
+  title: string;
+  video: boolean;
   vote_average: number;
+  vote_count: number;
   genre_ids: number[];
   homepage: string;
   genres?: Category[];
-  origin_country?: string[];
-  original_language?: string;
+  origin_country: string[];
 };

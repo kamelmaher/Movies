@@ -17,10 +17,20 @@ const DataContextProvider = ({ children }: DataContextProviderProps) => {
     const [categories, setCategories] = useState<Category[]>([])
     const handleChangeType = (e: string) => setMovieType(e)
     useEffect(() => {
-        axios.get("https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=acecc2235b3b867602d49291bcc21926").then(({ data }) => setCategories(data.genres))
+        const data = localStorage.getItem("categories")
+        if (data) {
+            const parsedCategories = JSON.parse(data)
+            setCategories(parsedCategories)
+        } else {
+            axios.get("https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=acecc2235b3b867602d49291bcc21926").then(({ data }) => {
+                setCategories(data.genres)
+                localStorage.setItem("categories", JSON.stringify(data.genres))
+            })
+        }
     }, [])
+
     return (
-        <dataContext.Provider value={{ typeOfMovies, movietype, handleChangeType, categories }} >
+        <dataContext.Provider value={{ typeOfMovies, movietype, handleChangeType, categories, }} >
             {children}
         </dataContext.Provider>
     )

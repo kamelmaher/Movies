@@ -4,6 +4,7 @@ import { dataContext } from "../../context/DataContextProvider"
 import Navigators from "../Navigators"
 import { useFetch } from "../../hooks/useFetch"
 import Loading from "../Loading"
+import { NavLink } from "react-router-dom"
 
 
 const MoviesContainer = () => {
@@ -28,9 +29,9 @@ const MoviesContainer = () => {
                             <div className="row justify-content-center">
                                 {
                                     data.length > 0 &&
-                                    data.map(movie => <div key={movie.id} className="col-sm-3">
+                                    data.map(movie => <NavLink key={movie.id} className="col-sm-3" to={`/movie/${movie.id}`}>
                                         <Movie movie={movie} />
-                                    </div>)
+                                    </NavLink>)
                                 }
                             </div>
                             <Navigators />

@@ -18,6 +18,10 @@ img {
     object-fit: contain !important;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 /* Glopals */
 /* Header */
 .header {

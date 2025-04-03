@@ -4,58 +4,69 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MovieType } from "../types/MovieType";
 import { getUrl } from "./getUrl";
-export type Root = {
-  adult: boolean;
-  backdrop_path: string;
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  genre_ids: number[];
-  homepage: string;
-};
+import { getRealData } from "./getRealData";
+import { Root } from "../types/Root";
+import { Actor } from "../types/Actor";
+
 export const useFetch = (url: string) => {
   const fullUrl = getUrl(url);
   const [data, setData] = useState<MovieType[]>([]);
   const [trending, setTrending] = useState<MovieType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [movieDetails, setMovieDetails] = useState<MovieType>({} as MovieType);
+  const [actors, setActors] = useState<Actor[]>([]);
+  const [actor, setActor] = useState<Actor>({} as Actor);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   useEffect(() => {
     setIsLoading(true);
     axios
       .get(fullUrl)
       .then(({ data }) => {
+        if (url.match(/movie\/\d+/)) {
+          setMovieDetails(getRealData(data));
+          axios.get(getUrl(`${url}/credits`)).then(({ data }) => {
+            data.cast.map((actor: Actor) => {
+              setActors((prev) => [
+                ...prev,
+                {
+                  cast_id: actor.cast_id,
+                  character: actor.character,
+                  gender: actor.gender,
+                  id: actor.id,
+                  name: actor.name,
+                  profile_path: actor.profile_path,
+                  homepage: actor.homepage,
+                },
+              ]);
+            });
+          });
+        } else if (url.match(/person\/\d+/)) {
+          setActor({
+            cast_id: data.cast_id,
+            character: data.character,
+            gender: data.gender,
+            id: data.id,
+            name: data.name,
+            profile_path: data.profile_path,
+            biography: data.biography,
+            birthday: data.birthday,
+            place_of_birth: data.place_of_birth,
+          });
+        }
         data.results.map((result: Root) => {
-          const movie = {
-            id: result.id,
-            title: result.title,
-            overview: result.overview,
-            poster_path: result.poster_path,
-            release_date: result.release_date,
-            vote_average: result.vote_average,
-            genre_ids: result.genre_ids,
-            homepage: result.homepage,
-          };
           switch (url) {
             case "trending/movie/week":
-              setTrending((prev) => [...prev, movie]);
+              setTrending((prev) => [...prev, getRealData(result)]);
               break;
             case "discover/movie":
-              setData((prev) => [...prev, movie]);
+              setData((prev) => [...prev, getRealData(result)]);
               break;
           }
         });
       })
-      .catch((err) => setError(err.message));
-    setIsLoading(false);
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false));
   }, [fullUrl]);
 
-  return { data, trending, isLoading, error };
+  return { data, trending, isLoading, error, movieDetails, actors, actor };
 };

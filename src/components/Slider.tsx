@@ -2,9 +2,11 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useFetch } from '../hooks/useFetch';
 import Loading from './Loading';
+import { useNavigate } from 'react-router';
 const Slider = () => {
     console.log("SLider Rendered")
     const { trending, isLoading, error } = useFetch("trending/movie/week")
+    const navigate = useNavigate()
     if (error)
         return <h3>{error}</h3>
     return (
@@ -33,9 +35,9 @@ const Slider = () => {
                     className='swiper'
                 >
                     {trending.map(movie =>
-                        <SwiperSlide key={movie.id}>
+                        <SwiperSlide key={movie.id} onClick={() => navigate(`movie/${movie.id}`)}>
                             {({ isActive }) => (
-                                <div className='m-auto' style={{ height: "100%" }}>
+                                <div className='m-auto pointer' style={{ height: "100%" }}>
                                     <img
                                         src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                                         alt={movie.title}

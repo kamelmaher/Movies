@@ -7,7 +7,7 @@ type MovieProps = {
 }
 const Movie = ({ movie }: MovieProps) => {
     const { categories: allCategories } = useContext(dataContext)
-    const categories = getCategories(movie.genre_ids, allCategories)
+    // const categories = getCategories(movie.genre_ids, allCategories)
     return (
         <div className="movie">
             <div className="image mb-3" >
@@ -18,10 +18,10 @@ const Movie = ({ movie }: MovieProps) => {
             </div>
             <div className="hidden">
                 <ul className="category d-flex justify-content-center gap-2 p-0">
-                    {
+                    {/* {
                         categories.length > 0 &&
                         categories.slice(0, 2).map(category => <li key={category.id}>{category.name}</li>)
-                    }
+                    } */}
                 </ul>
             </div>
         </div>

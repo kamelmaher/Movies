@@ -1,64 +1,55 @@
+import { useParams } from "react-router"
+import { useFetch } from "../../hooks/useFetch"
+import Loading from "../Loading"
+import MovieCast from "./MovieCast"
+
 const MovieDetails = () => {
+    const { movieId } = useParams()
+    const { movieDetails, isLoading, actors } = useFetch(`movie/${movieId}`)
     return (
         <div>
             {
-                <>
-                    <div className="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start mt-5">
-                        <div className="movie-img mb-3">
-                            <div className="imgage text-center">
-                                {/* <img src={`https://image.tmdb.org/t/p/w300${movie!.poster_path}`} alt="Image Of The Movie" className="rounded img-fluid img-details" /> */}
+                !isLoading ?
+                    <>
+                        <div className="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start mt-5">
+                            <div className="movie-img mb-3">
+                                <div className="imgage text-center">
+                                    <img src={`https://image.tmdb.org/t/p/w300${movieDetails.poster_path}`} alt="Image Of The Movie" className="rounded img-fluid img-details" />
+                                </div>
                             </div>
-                        </div>
-                        <div className="movie-details text-center text-sm-start">
-                            <div>
-                                <h1>"Movie"</h1>
-                                <p className="movie-desc mt-3 p-1 rounded">test</p>
+                            <div className="movie-details text-center text-sm-start">
+                                <h1>{movieDetails.title}</h1>
+                                <p className="movie-desc mt-3 p-1 rounded">{movieDetails.overview}</p>
                                 <div className="details row">
                                     <div className="movie-detail col-md-6">
-                                        <p>Categoreis: <span className="text-danger">
-                                        </span></p>
+                                        <p>Categoreis:
+                                            <span className="text-danger">
+                                                {
+                                                    movieDetails.genres!.map(category => ` ${category.name}, `)
+                                                }
+                                            </span>
+                                        </p>
                                     </div>
                                     <div className="movie-detail col-md-6">
-                                        <p>Rating: <span className="text-danger"></span></p>
+                                        <p>Rating: <span className="text-danger">{movieDetails.vote_average.toFixed(1)}</span></p>
                                     </div>
                                     <div className="movie-detail col-md-6">
-                                        <p>Language: <span className="text-danger"></span></p>
+                                        <p>Language: <span className="text-danger">{movieDetails.original_language}</span></p>
                                     </div>
                                     <div className="movie-detail col-md-6">
-                                        <p>Realease Date: <span className="text-danger"></span></p>
+                                        <p>Realease Date: <span className="text-danger">{movieDetails.release_date}</span></p>
                                     </div>
                                     <div className="movie-detail col-md-6">
-                                        <p>Country: <span className="text-danger"></span></p>
+                                        <p>Country: <span className="text-danger">{movieDetails.origin_country?.join(", ")}</span></p>
                                     </div>
                                 </div>
-
-                                <h5>Cast</h5>
-                                {/* <div className="actors row mt-3">
-                                    {
-                                        actors.map((e, i) => {
-                                            return <div key={i} className="col-sm-6 col-md-4 actor d-flex gap-2 align-items-center mb-3" onClick={() => {
-                                                navigate(`/movie/actors/${e.id}`)
-                                            }}>
-                                                <div className="image">
-                                                    <img src={`https://image.tmdb.org/t/p/w300${e.profile_path}`} alt="" className="img-fluid" />
-                                                </div>
-                                                <div className="name">
-                                                    <p className="mb-0 ">{e.name}</p>
-                                                    <p className="mb-0 text-danger">{e.character}</p>
-                                                </div>
-                                            </div>
-                                        })
-                                    }
-
-                                </div>
-                                } */}
+                                <MovieCast actors={actors.slice(0, 8)} />
                             </div>
                         </div>
-                    </div>
 
-                    {/* Seasons  */}
+                        {/* Seasons  */}
 
-                    {/* {
+                        {/* {
                         content == "tv" &&
                         <div className="seasons mt-3">
                             <h3>Seasons</h3>
@@ -77,9 +68,9 @@ const MovieDetails = () => {
                         </div>
                     } */}
 
-                    {/* Related Movies */}
+                        {/* Related Movies */}
 
-                    {/* <div className="related mt-4">
+                        {/* <div className="related mt-4">
                         <div className="row mt-3">
                             {
                                 related.map(e => {
@@ -98,9 +89,9 @@ const MovieDetails = () => {
                             }
                         </div>
                     </div> */}
-                </>
+                    </> : <Loading />
             }
-        </div>
+        </div >
     )
 }
 
