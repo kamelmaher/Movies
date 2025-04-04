@@ -14,7 +14,7 @@ const MovieCast = ({ actors }: MovieCastProps) => {
                         navigate(`/actor/${e.id}`)
                     }}>
                         <div className="image">
-                            <img src={`https://image.tmdb.org/t/p/w300${e.profile_path}`} alt="" className="img-fluid" />
+                            <img src={`https://image.tmdb.org/t/p/w300${e.profile_path}`} alt="" className="img-fluid" loading="lazy" />
                         </div>
                         <div className="name">
                             <p className="mb-0 ">{e.name}</p>

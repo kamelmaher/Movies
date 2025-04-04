@@ -3,6 +3,7 @@ import { useFetch } from "../../hooks/useFetch"
 import Loading from "../Loading"
 import MovieCast from "./MovieCast"
 import Related from "../Related"
+import Details from "./Details"
 
 const MovieDetails = () => {
     const { movieId } = useParams()
@@ -21,54 +22,11 @@ const MovieDetails = () => {
                             <div className="movie-details text-center text-sm-start">
                                 <h1>{movieDetails.movie.title}</h1>
                                 <p className="movie-desc mt-3 p-1 rounded">{movieDetails.movie.overview}</p>
-                                <div className="details row">
-                                    <div className="movie-detail col-md-6">
-                                        <p>Categoreis:
-                                            <span className="text-danger">
-                                                {
-                                                    movieDetails.movie.genres!.map(category => ` ${category.name}, `)
-                                                }
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div className="movie-detail col-md-6">
-                                        <p>Rating: <span className="text-danger">{movieDetails.movie.vote_average.toFixed(1)}</span></p>
-                                    </div>
-                                    <div className="movie-detail col-md-6">
-                                        <p>Language: <span className="text-danger">{movieDetails.movie.original_language}</span></p>
-                                    </div>
-                                    <div className="movie-detail col-md-6">
-                                        <p>Realease Date: <span className="text-danger">{movieDetails.movie.release_date}</span></p>
-                                    </div>
-                                    <div className="movie-detail col-md-6">
-                                        <p>Country: <span className="text-danger">{movieDetails.movie.origin_country?.join(", ")}</span></p>
-                                    </div>
-                                </div>
+                                <Details movie={movieDetails.movie} />
                                 <MovieCast actors={movieDetails.cast.slice(0, 8)} />
                             </div>
-                            <Related url={`movie/${movieId}/similar`} />
                         </div>
-
-                        {/* Seasons  */}
-
-                        {/* {
-                        content == "tv" &&
-                        <div className="seasons mt-3">
-                            <h3>Seasons</h3>
-                            <div className="d-flex gap-3 flex-wrap justify-content-around">
-                                {
-                                    seasons.map(e => {
-                                        return <div key={e.id}>
-                                            <img src={`https://image.tmdb.org/t/p/w200${e.poster_path}`} alt="" className="img-fluid" onClick={() => {
-                                                navigate(`/serie/${movieId}/seasons/${e.season_number}`)
-                                            }} />
-                                            <h5 className="text-center">{e.name}</h5>
-                                        </div>
-                                    })
-                                }
-                            </div>
-                        </div>
-                    } */}
+                        <Related url={`movie/${movieId}/similar`} />
                     </> : <Loading />
             }
         </div >
