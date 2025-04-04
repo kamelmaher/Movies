@@ -1,14 +1,13 @@
 import { Actor } from "../../types/Actor"
 
 type ActorDetailsProps = {
-    actor: Actor
+    actor: Actor,
 }
 const ActorDetails = ({ actor }: ActorDetailsProps) => {
     return (
         <div className="details text-center text-md-start">
             <h3>{actor.name}</h3>
             {
-                actor.birthday &&
                 actor.birthday &&
                 <>
                     <p>Birthday: <span className="text-danger">{actor.birthday}</span></p>

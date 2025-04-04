@@ -9,13 +9,19 @@ const Related = ({ url }: RelatedProps) => {
     return (
         <div className="mt-3">
             <h4>Related Movies</h4>
-            <div className="row ">
-                {
-                    !isLoading ?
-                        loadData(related) : <Loading />
-                }
-            </div>
-        </div>
+            {
+                !isLoading ?
+                    related.length > 0 ?
+                        <div className="row">
+                            {
+                                loadData(related)
+                            }
+                        </div>
+                        : <p className="text-danger">No Related Movies</p>
+                    : <Loading />
+            }
+
+        </div >
     )
 }
 

@@ -45,8 +45,8 @@ const MovieDetails = () => {
                                     </div>
                                 </div>
                                 <MovieCast actors={actors.slice(0, 8)} />
-                                <Related url={`movie/${movieId}/similar`} />
                             </div>
+                            <Related url={`movie/${movieId}/similar`} />
                         </div>
 
                         {/* Seasons  */}

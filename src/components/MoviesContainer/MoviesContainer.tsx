@@ -12,7 +12,7 @@ import MoviesContainerHead from "./MoviesContainerHead"
 import MoviesTypes from "./MoviesTypes"
 
 export const loadData = (data: MovieType[]) =>
-    data.map(movie => <NavLink key={movie.id} className="col-sm-3" to={`/movie/${movie.id}`}>
+    data.map(movie => <NavLink key={movie.id} className="col-6 col-sm-3" to={`/movie/${movie.id}`}>
         <Movie movie={movie} />
     </NavLink>)
 const MoviesContainer = () => {
@@ -38,24 +38,22 @@ const MoviesContainer = () => {
             <div className="row movieCont justify-content-center">
                 <MoviesContainerHead movieType={movieType} />
                 <MoviesTypes movieType={movieType} typeOfMovies={typeOfMovies} handleMovieType={e => setMovieType(e)} />
-                {
-                    !isLoading ?
-                        <>
-                            <div className="row justify-content-center">
-                                {
-                                    !movieType ?
-                                        data.length > 0 &&
-                                        loadData(data)
-                                        :
-                                        !typeLoading ?
-                                            loadData(movies)
-                                            : <Loading />
-                                }
-                            </div>
-                            <Navigators />
-                        </>
-                        : <Loading />
-                }
+                <div className="row justify-content-center" >
+                    {
+                        !isLoading ?
+                            !movieType ?
+                                data.length > 0 ?
+                                    loadData(data) : <p className="text-dange">There is No Movies</p>
+                                :
+                                !typeLoading ?
+                                    loadData(movies)
+                                    : <Loading />
+                            : <Loading />
+                    }
+
+                </div>
+                <Navigators />
+
             </div>
         </div >
     )
