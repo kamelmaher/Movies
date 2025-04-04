@@ -4,6 +4,7 @@ import { useFetch } from '../hooks/useFetch';
 import Loading from './Loading';
 import { useNavigate } from 'react-router';
 const Slider = () => {
+    console.log("SLider")
     const { trending, isLoading, error } = useFetch("trending/movie/week")
     const navigate = useNavigate()
     if (error)
@@ -42,7 +43,7 @@ const Slider = () => {
                                         alt={movie.title}
                                         className='img-fluid'
                                         style={{ opacity: `${isActive ? "100%" : "50%"}`, transition: ".2s", minHeight: "200px" }}
-                                        loading={`${isActive ? "eager" : "lazy"}`}
+                                        loading="lazy"
                                     />
                                     {
                                         isActive &&

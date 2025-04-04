@@ -16,6 +16,7 @@ export const loadData = (data: MovieType[]) =>
         <Movie movie={movie} />
     </NavLink>)
 const MoviesContainer = () => {
+    console.log("Movies Container")
     const [movies, setMovies] = useState<MovieType[]>([])
     const { data, isLoading } = useFetch("discover/movie")
     const typeOfMovies = ["Now Playing", "Popular", "Top Rated", "UpComing"]

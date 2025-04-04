@@ -7,13 +7,24 @@ import { getUrl } from "./getUrl";
 import { getRealData } from "./getRealData";
 import { Root } from "../types/Root";
 import { Actor } from "../types/Actor";
-
+type MovieDetailsType = {
+  movie: MovieType;
+  cast: Actor[];
+};
 export const useFetch = (url: string) => {
+  const isMovieDetails = url.match(/^movie\/\d+$/);
+  const isActorDetails = url.match(/person\/\d+/);
+  const isTrending = url === "trending/movie/week";
+  const isDiscover = url === "discover/movie";
+  const isRelatedMovies = url.match(/movie\/\d+\/similar/);
+  const isActorMovies = url.match(/person\/\d+\/movie_credits/);
   const fullUrl = getUrl(url);
   const [data, setData] = useState<MovieType[]>([]);
   const [trending, setTrending] = useState<MovieType[]>([]);
-  const [movieDetails, setMovieDetails] = useState<MovieType>({} as MovieType);
-  const [actors, setActors] = useState<Actor[]>([]);
+  const [movieDetails, setMovieDetails] = useState<MovieDetailsType>({
+    movie: {} as MovieType,
+    cast: [],
+  });
   const [actor, setActor] = useState<Actor>({} as Actor);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -23,25 +34,19 @@ export const useFetch = (url: string) => {
     axios
       .get(fullUrl)
       .then(({ data }) => {
-        if (url.match(/^movie\/\d+$/)) {
-          setMovieDetails(getRealData(data));
-          axios.get(getUrl(`${url}/credits`)).then(({ data }) => {
-            data.cast.map((actor: Actor) => {
-              setActors((prev) => [
+        if (isMovieDetails) {
+          setMovieDetails((prev) => {
+            return { ...prev, movie: getRealData(data) };
+          });
+          axios.get(getUrl(`${url}/credits`)).then(({ data: actors }) => {
+            setMovieDetails((prev) => {
+              return {
                 ...prev,
-                {
-                  cast_id: actor.cast_id,
-                  character: actor.character,
-                  gender: actor.gender,
-                  id: actor.id,
-                  name: actor.name,
-                  profile_path: actor.profile_path,
-                  homepage: actor.homepage,
-                },
-              ]);
+                cast: actors.cast.map((actor: Actor) => actor),
+              };
             });
           });
-        } else if (url.match(/person\/\d+/)) {
+        } else if (isActorDetails)
           setActor({
             cast_id: data.cast_id,
             character: data.character,
@@ -53,28 +58,14 @@ export const useFetch = (url: string) => {
             birthday: data.birthday,
             place_of_birth: data.place_of_birth,
           });
-        }
-        if (url == "trending/movie/week") {
-          console.log("Trending");
-          data.results.map((result: Root) => {
-            setTrending((prev) => [...prev, getRealData(result)]);
-          });
-        } else if (url == "discover/movie") {
-          console.log("Discover");
-          data.results.map((result: Root) => {
-            setData((prev) => [...prev, getRealData(result)]);
-          });
-        } else if (url.match(/person\/\d+\/movie_credits/)) {
-          console.log("Related To Actor");
-          data.cast.map((result: Root) => {
-            setRelated((prev) => [...prev, getRealData(result)]);
-          });
-        } else if (url.match(/movie\/\d+\/similar/)) {
-          console.log("Similar");
-          data.results.map((result: Root) => {
-            setRelated((prev) => [...prev, getRealData(result)]);
-          });
-        }
+        if (isTrending)
+          setTrending(data.results.map((result: Root) => getRealData(result)));
+        else if (isDiscover)
+          setData(data.results.map((result: Root) => getRealData(result)));
+        else if (isActorMovies)
+          setRelated(data.cast.map((result: Root) => getRealData(result)));
+        else if (isRelatedMovies)
+          setRelated(data.results.map((result: Root) => result));
       })
       .catch((err) => setError(err.message))
       .finally(() => setIsLoading(false));
@@ -86,7 +77,6 @@ export const useFetch = (url: string) => {
     isLoading,
     error,
     movieDetails,
-    actors,
     actor,
     related,
   };

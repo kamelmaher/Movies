@@ -8,6 +8,7 @@ import Loading from "../Loading"
 const Actor = () => {
     const { actorId } = useParams()
     const { actor, isLoading } = useFetch(`person/${actorId}`)
+    console.log("Actor")
     return (
         <div className="mt-4">
             {
