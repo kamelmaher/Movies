@@ -5,17 +5,12 @@ type DataContextProviderProps = {
     children: ReactNode
 }
 type dataContextType = {
-    movietype: string
-    typeOfMovies: string[]
-    handleChangeType: (e: string) => void,
     categories: Category[]
 };
 export const dataContext = createContext<dataContextType>({} as dataContextType);
 const DataContextProvider = ({ children }: DataContextProviderProps) => {
-    const typeOfMovies = ["Top Rated", "Popular", "Up Coming", "Now Playing"]
-    const [movietype, setMovieType] = useState("")
     const [categories, setCategories] = useState<Category[]>([])
-    const handleChangeType = (e: string) => setMovieType(e)
+
     useEffect(() => {
         const data = localStorage.getItem("categories")
         if (data) {
@@ -30,7 +25,7 @@ const DataContextProvider = ({ children }: DataContextProviderProps) => {
     }, [])
 
     return (
-        <dataContext.Provider value={{ typeOfMovies, movietype, handleChangeType, categories, }} >
+        <dataContext.Provider value={{ categories, }} >
             {children}
         </dataContext.Provider>
     )

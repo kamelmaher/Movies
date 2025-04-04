@@ -1,5 +1,5 @@
 import './App.css'
-import MoviesContainer from './components/Movie/MoviesContainer'
+import MoviesContainer from './components/MoviesContainer/MoviesContainer'
 import Slider from './components/Slider'
 
 function App() {

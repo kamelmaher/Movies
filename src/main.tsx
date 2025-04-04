@@ -5,7 +5,7 @@ import Layout from './Layout.tsx'
 import App from './App.tsx'
 import MovieDetails from './components/Movie/MovieDetails.tsx'
 import Seasons from './components/Movie/Seasons.tsx'
-import Actor from './components/Movie/Actor.tsx'
+import Actor from './components/Actor/Actor.tsx'
 import DataContextProvider from './context/DataContextProvider.tsx'
 const router = createBrowserRouter(
     createRoutesFromElements(

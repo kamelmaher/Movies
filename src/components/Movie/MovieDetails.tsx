@@ -2,6 +2,7 @@ import { useParams } from "react-router"
 import { useFetch } from "../../hooks/useFetch"
 import Loading from "../Loading"
 import MovieCast from "./MovieCast"
+import Related from "../Related"
 
 const MovieDetails = () => {
     const { movieId } = useParams()
@@ -44,6 +45,7 @@ const MovieDetails = () => {
                                     </div>
                                 </div>
                                 <MovieCast actors={actors.slice(0, 8)} />
+                                <Related url={`movie/${movieId}/similar`} />
                             </div>
                         </div>
 

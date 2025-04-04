@@ -4,7 +4,6 @@ import { useFetch } from '../hooks/useFetch';
 import Loading from './Loading';
 import { useNavigate } from 'react-router';
 const Slider = () => {
-    console.log("SLider Rendered")
     const { trending, isLoading, error } = useFetch("trending/movie/week")
     const navigate = useNavigate()
     if (error)

@@ -17,12 +17,13 @@ export const useFetch = (url: string) => {
   const [actor, setActor] = useState<Actor>({} as Actor);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [related, setRelated] = useState<MovieType[]>([]);
   useEffect(() => {
     setIsLoading(true);
     axios
       .get(fullUrl)
       .then(({ data }) => {
-        if (url.match(/movie\/\d+/)) {
+        if (url.match(/^movie\/\d+$/)) {
           setMovieDetails(getRealData(data));
           axios.get(getUrl(`${url}/credits`)).then(({ data }) => {
             data.cast.map((actor: Actor) => {
@@ -53,20 +54,40 @@ export const useFetch = (url: string) => {
             place_of_birth: data.place_of_birth,
           });
         }
-        data.results.map((result: Root) => {
-          switch (url) {
-            case "trending/movie/week":
-              setTrending((prev) => [...prev, getRealData(result)]);
-              break;
-            case "discover/movie":
-              setData((prev) => [...prev, getRealData(result)]);
-              break;
-          }
-        });
+        if (url == "trending/movie/week") {
+          console.log("Trending");
+          data.results.map((result: Root) => {
+            setTrending((prev) => [...prev, getRealData(result)]);
+          });
+        } else if (url == "discover/movie") {
+          console.log("Discover");
+          data.results.map((result: Root) => {
+            setData((prev) => [...prev, getRealData(result)]);
+          });
+        } else if (url.match(/person\/\d+\/movie_credits/)) {
+          console.log("Related To Actor");
+          data.cast.map((result: Root) => {
+            setRelated((prev) => [...prev, getRealData(result)]);
+          });
+        } else if (url.match(/movie\/\d+\/similar/)) {
+          console.log("Similar");
+          data.results.map((result: Root) => {
+            setRelated((prev) => [...prev, getRealData(result)]);
+          });
+        }
       })
       .catch((err) => setError(err.message))
       .finally(() => setIsLoading(false));
   }, [fullUrl]);
 
-  return { data, trending, isLoading, error, movieDetails, actors, actor };
+  return {
+    data,
+    trending,
+    isLoading,
+    error,
+    movieDetails,
+    actors,
+    actor,
+    related,
+  };
 };
