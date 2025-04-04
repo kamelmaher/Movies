@@ -1,4 +1,5 @@
 import { useFetch } from "../hooks/useFetch"
+import Loading from "./Loading"
 import { loadData } from "./MoviesContainer/MoviesContainer"
 type RelatedProps = {
     url: string,
@@ -10,8 +11,8 @@ const Related = ({ url }: RelatedProps) => {
             <h4>Related Movies</h4>
             <div className="row ">
                 {
-                    !isLoading &&
-                    loadData(related)
+                    !isLoading ?
+                        loadData(related) : <Loading />
                 }
             </div>
         </div>
