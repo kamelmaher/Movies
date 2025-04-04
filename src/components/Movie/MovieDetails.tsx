@@ -69,28 +69,6 @@ const MovieDetails = () => {
                             </div>
                         </div>
                     } */}
-
-                        {/* Related Movies */}
-
-                        {/* <div className="related mt-4">
-                        <div className="row mt-3">
-                            {
-                                related.map(e => {
-                                    const myCategories: Category[] = []
-                                    allCategories.map(category => {
-                                        e.genre_ids.map(id => {
-                                            if (id == category.id) myCategories.push(category)
-                                        })
-                                    })
-                                    return <div key={e.id} className="col-md-3" onClick={() => {
-                                        setLoading(true)
-                                    }}>
-                                        <Movie movie={e} myCategories={myCategories}></Movie>
-                                    </div>
-                                })
-                            }
-                        </div>
-                    </div> */}
                     </> : <Loading />
             }
         </div >
