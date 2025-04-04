@@ -70,7 +70,6 @@ export const useFetch = (url: string) => {
       .catch((err) => setError(err.message))
       .finally(() => setIsLoading(false));
   }, [fullUrl]);
-
   return {
     data,
     trending,

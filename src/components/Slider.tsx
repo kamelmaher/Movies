@@ -4,11 +4,12 @@ import { useFetch } from '../hooks/useFetch';
 import Loading from './Loading';
 import { useNavigate } from 'react-router';
 const Slider = () => {
-    console.log("SLider")
+    // console.log("SLider")
     const { trending, isLoading, error } = useFetch("trending/movie/week")
     const navigate = useNavigate()
     if (error)
         return <h3>{error}</h3>
+
     return (
         !isLoading ?
             <div style={{ userSelect: "none" }} className='mb-5 mt-3'>

@@ -58,6 +58,38 @@ a {
     background-color: red;
 }
 
+.search-results {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    transform: translate(10px, 100%);
+    background-color: white;
+    border-radius: 8px;
+    z-index: 2125;
+    max-height: 300px;
+    overflow: auto;
+}
+
+
+
+.result {
+    padding: 10px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+
+.search-results img {
+    object-fit: cover !important;
+    width: 100% !important;
+}
+
+.result:hover {
+    background-color: #b30000;
+    color: white !important;
+}
+
 /* Header */
 
 /* Aside */
@@ -80,6 +112,7 @@ a {
     border-radius: 10px;
     overflow: hidden;
 }
+
 .movie .image img {
     transition: .4s;
 }

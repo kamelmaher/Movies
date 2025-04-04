@@ -1,5 +1,5 @@
+import { loadData } from "../hooks/loadData"
 import { useFetch } from "../hooks/useFetch"
-import { loadData } from "./MoviesContainer/MoviesContainer"
 type RelatedProps = {
     url: string,
 
