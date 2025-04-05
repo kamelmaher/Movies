@@ -20,8 +20,6 @@ const MovieDetails = () => {
                                 </div>
                             </div>
                             <div className="movie-details text-center text-sm-start">
-                                <h1>{movieDetails.movie.title}</h1>
-                                <p className="movie-desc mt-3 p-1 rounded">{movieDetails.movie.overview}</p>
                                 <Details movie={movieDetails.movie} />
                                 <MovieCast actors={movieDetails.cast.slice(0, 8)} />
                             </div>
