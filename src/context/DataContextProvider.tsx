@@ -33,7 +33,7 @@ const DataContextProvider = ({ children }: DataContextProviderProps) => {
                     `https://api.themoviedb.org/3/search/movie?api_key=acecc2235b3b867602d49291bcc21926&query=${search}`
                 )
                 .then(({ data }) => {
-                    setSearchState(prev => { return { ...prev, searchResults: data.results.map(((result: Root) => getRealData(result))), isLoading: false } })
+                    setSearchState(prev => { return { ...prev, searchResults: data.results.slice(0, 15).map(((result: Root) => getRealData(result))), isLoading: false } })
                 });
         } else closeMenu()
 
