@@ -4,23 +4,22 @@ import ActorImg from "./ActorImg"
 import ActorDetails from "./ActorDetails"
 import Related from "../Related"
 import Loading from "../Loading"
+import { Actor as ActorType } from "../../types/Actor"
 
 const Actor = () => {
     const { actorId } = useParams()
-    const { actor, isLoading } = useFetch(`person/${actorId}`)
-    console.log("Actor")
+    const actor = useFetch<ActorType>(`person/${actorId}`, {}, (data) => data)
+    if (actor.isLoading) return <Loading />
+    if (actor.error) return <h1>Error</h1>
     return (
         <div className="mt-4">
-            {
-                !isLoading ?
-                    <div>
-                        <div className="actor-page d-flex gap-3 p-2 flex-wrap justify-content-center">
-                            <ActorImg img={actor.profile_path} name={actor.name} />
-                            <ActorDetails actor={actor} />
-                        </div>
-                        <Related url={`person/${actorId}/movie_credits`} />
-                    </div> : <Loading />
-            }
+            <div>
+                <div className="actor-page d-flex gap-3 p-2 flex-wrap justify-content-center">
+                    <ActorImg img={actor.data.profile_path} name={actor.data.name} />
+                    <ActorDetails actor={actor.data} />
+                </div>
+                <Related url={`person/${actorId}/movie_credits`} />
+            </div>
         </div>
     )
 }

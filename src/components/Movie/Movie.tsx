@@ -1,13 +1,14 @@
-import { useContext } from "react"
 import { getCategories } from "../../hooks/getCategories"
 import { MovieType } from "../../types/MovieType"
-import { dataContext } from "../../context/DataContextProvider"
+import { useData } from "../../context/DataContextProvider"
 type MovieProps = {
     movie: MovieType
 }
 const Movie = ({ movie }: MovieProps) => {
-    const { categories: allCategories } = useContext(dataContext)
-    const categories = getCategories(movie.genre_ids, allCategories)
+    const { categories: allCategories } = useData()
+    if (allCategories.error) return
+    if (allCategories.isLoading) return
+    const categories = getCategories(movie.genre_ids, allCategories.data!)
     return (
         <div className="movie">
             <div className="image rounded mb-3" >

@@ -1,9 +1,8 @@
-import { useContext } from "react"
 import { NavLink } from "react-router-dom"
-import { dataContext } from "../../context/DataContextProvider"
 import SearchResults from "./SearchResults"
+import { useState } from "react"
 const Header = () => {
-    const { handleSearch } = useContext(dataContext)
+    const [search, setSearch] = useState("")
     return (
         <div>
             <nav className="navbar navbar-expand-sm bg-light header">
@@ -18,18 +17,17 @@ const Header = () => {
                                 e.preventDefault()
                             }}>
                                 <div className="form-floating">
-                                    <input type="text" className="form-control" placeholder="Search"
-                                        onChange={e => {
-                                            if (e.target.value == "")
-                                                handleSearch("")
-                                            else
-                                                handleSearch(e.target.value)
-                                        }}
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Search"
+                                        value={search}
+                                        onChange={e => setSearch(e.target.value)}
                                     />
                                     <label>Search</label>
                                 </div>
                             </form>
-                            <SearchResults />
+                            <SearchResults searchVal={search} setSearch={setSearch} />
                         </ul>
                     </div>
                 </div>
